@@ -9,7 +9,9 @@ import cl.duoc.userservice.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import cl.duoc.userservice.model.UserProfile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +40,18 @@ public class UserService {
         user.setPhone(request.getPhone());
         user.setRole("CLIENTE");
         user.setStatus("ACTIVO");
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+
+        if (request.getProfile() != null) {
+            UserProfile profile = new UserProfile();
+            profile.setAddress(request.getProfile().getAddress());
+            profile.setCity(request.getProfile().getCity());
+            profile.setCommune(request.getProfile().getCommune());
+
+            profile.setUser(user);
+            user.setProfile(profile);
+        }
 
         User savedUser = repository.save(user);
 
@@ -85,6 +99,7 @@ public class UserService {
         existingUser.setFullName(request.getFullName());
         existingUser.setEmail(request.getEmail());
         existingUser.setPhone(request.getPhone());
+        existingUser.setUpdatedAt(LocalDateTime.now());
 
 
         User updatedUser = repository.save(existingUser);

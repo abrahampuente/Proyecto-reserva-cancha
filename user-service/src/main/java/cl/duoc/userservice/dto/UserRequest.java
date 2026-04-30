@@ -3,7 +3,11 @@ package cl.duoc.userservice.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserRequest {
 
     @NotBlank(message = "El nombre completo es obligatorio")
@@ -18,33 +22,5 @@ public class UserRequest {
     @Size(min = 8, max = 20, message = "El teléfono debe tener entre 8 y 20 caracteres")
     private String phone;
 
-
-    public UserRequest() {
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-
+    private UserProfileRequest profile;
 }
