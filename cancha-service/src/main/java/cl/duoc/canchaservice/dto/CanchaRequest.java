@@ -27,4 +27,6 @@ public class CanchaRequest {
     private Long recintoId;
 
     private List<CaracteristicaCanchaRequest> caracteristicas;
+
+    private String status;
 }

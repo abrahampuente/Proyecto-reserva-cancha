@@ -6,6 +6,8 @@ import cl.duoc.canchaservice.exception.ResourceNotFoundException;
 import cl.duoc.canchaservice.model.Cancha;
 import cl.duoc.canchaservice.model.CaracteristicaCancha;
 import cl.duoc.canchaservice.repository.CanchaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 @Service
 public class CanchaService {
 
+    private static final Logger logger =
+            LoggerFactory.getLogger(CanchaService.class);
     private final CanchaRepository repository;
 
     public CanchaService(CanchaRepository repository) {
@@ -22,6 +26,8 @@ public class CanchaService {
     }
 
     public CanchaResponse create(CanchaRequest request) {
+
+        logger.info("Creando cancha {}", request.getName());
 
         Cancha cancha = new Cancha();
 
@@ -34,7 +40,7 @@ public class CanchaService {
         cancha.setCreatedAt(LocalDateTime.now());
         cancha.setUpdatedAt(LocalDateTime.now());
 
-        // Características
+
         if (request.getCaracteristicas() != null) {
 
             List<CaracteristicaCancha> lista = request.getCaracteristicas()
@@ -55,6 +61,9 @@ public class CanchaService {
     }
 
     public List<CanchaResponse> getAll() {
+
+        logger.info("Listando todas las canchas");
+
         return repository.findAll()
                 .stream()
                 .map(this::mapToResponse)
@@ -64,23 +73,36 @@ public class CanchaService {
     public CanchaResponse getById(Long id) {
 
         Cancha cancha = repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Cancha no encontrada con id: " + id));
+                .orElseThrow(() -> {
+
+                        logger.error("Cancha no encontrada con id {}", id);
+
+                       return new ResourceNotFoundException(
+                               "Cancha no encontrada con id: " + id);
+                });
 
         return mapToResponse(cancha);
     }
 
     public CanchaResponse update(Long id, CanchaRequest request) {
 
+        logger.info("Actualizando cancha con id {}", id);
+
         Cancha cancha = repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Cancha no encontrada con id: " + id));
+                .orElseThrow(() -> {
+
+                    logger.error("Cancha no encontrada con id {}", id);
+
+                    return new ResourceNotFoundException(
+                                    "Cancha no encontrada con id: " + id);
+                        });
 
         cancha.setName(request.getName());
         cancha.setSportType(request.getSportType());
         cancha.setSurfaceType(request.getSurfaceType());
         cancha.setCapacity(request.getCapacity());
         cancha.setRecintoId(request.getRecintoId());
+        cancha.setStatus(request.getStatus());
         cancha.setUpdatedAt(LocalDateTime.now());
 
         Cancha updated = repository.save(cancha);
@@ -90,9 +112,16 @@ public class CanchaService {
 
     public void delete(Long id) {
 
+        logger.warn("Eliminando cancha con id {}", id);
+
         Cancha cancha = repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Cancha no encontrada con id: " + id));
+                .orElseThrow(() -> {
+
+                    logger.error("Cancha no encontrada con id {}", id);
+
+                    return new ResourceNotFoundException(
+                            "Cancha no encontrada con id: " + id);
+                });
 
         repository.delete(cancha);
     }
