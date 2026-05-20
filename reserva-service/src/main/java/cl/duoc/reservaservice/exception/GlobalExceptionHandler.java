@@ -1,4 +1,5 @@
 package cl.duoc.reservaservice.exception;
+// Manejador global de excepciones para respuestas HTTP consistentes
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
