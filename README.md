@@ -8,8 +8,8 @@
 | Nombre | GitHub |
 |--------|--------|
 | Benjamin Cea | @BenjaminCeainfor |
-| Abraham Puente | - |
-| Pablo Acuña | - |
+| Abraham Puente | @Abrahampuente |
+| Pablo Acuña | @Pabloacuna-06 |
 
 ---
 
