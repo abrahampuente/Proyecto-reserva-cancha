@@ -1,4 +1,5 @@
 package cl.duoc.reservaservice.config;
+// Configuración de seguridad con Basic Auth para reserva-service
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
