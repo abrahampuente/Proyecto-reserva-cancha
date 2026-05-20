@@ -1,4 +1,5 @@
 package cl.duoc.reservaservice.model;
+// Entidad JPA que representa una reserva de cancha deportiva
 
 import jakarta.persistence.*;
 import lombok.*;
