@@ -1,4 +1,5 @@
 package cl.duoc.reservaservice.controller;
+// Controller REST para gestión de reservas, expone endpoints CRUD
 
 import cl.duoc.reservaservice.dto.ReservaRequest;
 import cl.duoc.reservaservice.dto.ReservaResponse;

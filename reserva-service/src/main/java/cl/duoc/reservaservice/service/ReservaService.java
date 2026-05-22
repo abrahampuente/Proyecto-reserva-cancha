@@ -1,4 +1,5 @@
 package cl.duoc.reservaservice.service;
+// Servicio principal para gestión de reservas con lógica CRUD completa
 
 import cl.duoc.reservaservice.client.CanchaClient;
 import cl.duoc.reservaservice.client.HorarioClient;
