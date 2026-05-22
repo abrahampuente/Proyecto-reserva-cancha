@@ -32,6 +32,10 @@ public class PagoController {
     public ResponseEntity<PagoResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(pagoService.getById(id));
     }
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(pagoService.existsById(id));
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<PagoResponse> update(@PathVariable Long id,

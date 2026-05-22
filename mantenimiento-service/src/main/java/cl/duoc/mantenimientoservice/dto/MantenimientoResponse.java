@@ -18,4 +18,5 @@ public class MantenimientoResponse {
     private String estado;
     private String tecnico;
     private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaActualizacion;
 }

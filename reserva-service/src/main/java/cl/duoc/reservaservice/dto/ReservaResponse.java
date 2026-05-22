@@ -7,10 +7,13 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ReservaResponse {
+
     private Long id;
     private Long usuarioId;
     private Long canchaId;
     private Long horarioId;
     private LocalDateTime fechaReserva;
     private String estado;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

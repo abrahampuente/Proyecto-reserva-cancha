@@ -23,23 +23,43 @@ public class Notificacion {
     private String titulo;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String mensaje;
 
     @Column(nullable = false)
     private String destinatario;
 
     @Column(nullable = false)
-    private String tipo; // EMAIL, SMS, PUSH
+    private String tipo;
+
+    @Column(nullable = false)
+    private String estado;
 
     @Column(nullable = false)
     private Boolean leida = false;
 
-    @Column(name = "fecha_creacion")
+    @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fechaActualizacion;
 
     @PrePersist
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
+        this.fechaActualizacion = LocalDateTime.now();
+
+        if (this.estado == null) {
+            this.estado = "PENDIENTE";
+        }
+
+        if (this.leida == null) {
+            this.leida = false;
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.fechaActualizacion = LocalDateTime.now();
     }
 }

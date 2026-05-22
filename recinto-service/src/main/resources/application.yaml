@@ -3,7 +3,7 @@ spring:
     name: recinto-service
 
   datasource:
-    url: jdbc:h2:mem:recintosdb
+    url: jdbc:h2:file:./data/recintosdb
     driver-class-name: org.h2.Driver
     username: sa
     password:

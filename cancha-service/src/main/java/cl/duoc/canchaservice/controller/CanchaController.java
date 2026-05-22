@@ -34,6 +34,10 @@ public class CanchaController {
     public ResponseEntity<CanchaResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.existsById(id));
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<CanchaResponse> update(

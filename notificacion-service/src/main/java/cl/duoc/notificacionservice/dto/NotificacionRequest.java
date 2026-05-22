@@ -21,5 +21,7 @@ public class NotificacionRequest {
     @NotBlank(message = "El tipo es obligatorio")
     private String tipo;
 
-    private Boolean leida = false;
+    private String estado;
+
+    private Boolean leida;
 }

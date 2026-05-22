@@ -3,7 +3,7 @@ spring:
     name: cancha-service
 
   datasource:
-    url: jdbc:h2:mem:canchasdb
+    url: jdbc:h2:file:./data/canchasdb
     driver-class-name: org.h2.Driver
     username: sa
     password:

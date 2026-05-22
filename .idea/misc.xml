@@ -8,6 +8,12 @@
         <option value="$PROJECT_DIR$/cancha-service/pom.xml" />
         <option value="$PROJECT_DIR$/recinto-service/pom.xml" />
         <option value="$PROJECT_DIR$/horario-service/pom.xml" />
+        <option value="$PROJECT_DIR$/precio-service/pom.xml" />
+        <option value="$PROJECT_DIR$/pago-service/pom.xml" />
+        <option value="$PROJECT_DIR$/notificacion-service/pom.xml" />
+        <option value="$PROJECT_DIR$/mantenimiento-service/pom.xml" />
+        <option value="$PROJECT_DIR$/resena-service/pom.xml" />
+        <option value="$PROJECT_DIR$/reserva-service/pom.xml" />
       </list>
     </option>
   </component>

@@ -14,6 +14,8 @@ public class NotificacionResponse {
     private String mensaje;
     private String destinatario;
     private String tipo;
+    private String estado;
     private Boolean leida;
     private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaActualizacion;
 }

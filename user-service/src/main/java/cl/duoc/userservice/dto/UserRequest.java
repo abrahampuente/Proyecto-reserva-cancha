@@ -23,4 +23,7 @@ public class UserRequest {
     private String phone;
 
     private UserProfileRequest profile;
+
+    private String role;
+
 }

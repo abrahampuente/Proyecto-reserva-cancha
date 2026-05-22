@@ -1,6 +1,7 @@
 package cl.duoc.recintoservice.dto;
 
 import lombok.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,4 +19,6 @@ public class RecintoResponse {
     private Long managerUserId;
     private String status;
     private List<String> imagenes;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

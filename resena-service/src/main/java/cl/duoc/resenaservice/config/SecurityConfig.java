@@ -2,8 +2,9 @@ package cl.duoc.resenaservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,38 +12,61 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/h2-console/**").permitAll()
+
+                        // Público: ver reseñas
+                        .requestMatchers(HttpMethod.GET, "/api/resenas/**").permitAll()
+
+                        // Crear reseña
+                        .requestMatchers(HttpMethod.POST, "/api/resenas/**")
+                        .hasAnyRole("CLIENTE", "ADMIN")
+
+                        // Editar reseña
+                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**")
+                        .hasAnyRole("CLIENTE", "ADMIN")
+
+                        // Eliminar reseña
+                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**")
+                        .hasAnyRole("CLIENTE", "ADMIN")
+
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults());
+
+        return http.build();
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder encoder) {
+        UserDetails admin = User.withUsername("admin")
+                .password(encoder.encode("admin123"))
+                .roles("ADMIN")
+                .build();
+
+        UserDetails duenio = User.withUsername("duenio")
+                .password(encoder.encode("duenio123"))
+                .roles("DUENIO")
+                .build();
+
+        UserDetails cliente = User.withUsername("cliente")
+                .password(encoder.encode("cliente123"))
+                .roles("CLIENTE")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, duenio, cliente);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin123"))
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(admin);
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**", "/api/**"))
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin()))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated())
-                .httpBasic(withDefaults());
-        return http.build();
     }
 }

@@ -13,9 +13,10 @@ public class PagoRequest {
     @NotNull(message = "El monto es obligatorio")
     private BigDecimal monto;
 
-    @NotNull(message = "El estado es obligatorio")
-    private String estado;
-
     @NotNull(message = "El metodo de pago es obligatorio")
     private String metodoPago;
+
+    private String estado;
+
+    private String codigoTransaccion;
 }

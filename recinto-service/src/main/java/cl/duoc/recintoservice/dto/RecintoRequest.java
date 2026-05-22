@@ -1,6 +1,7 @@
 package cl.duoc.recintoservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.util.List;
@@ -26,6 +27,7 @@ public class RecintoRequest {
     @NotBlank(message = "El teléfono es obligatorio")
     private String phone;
 
+    @NotNull(message = "El managerUserId es obligatorio")
     private Long managerUserId;
 
     private List<ImagenRecintoRequest> imagenes;

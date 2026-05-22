@@ -22,7 +22,6 @@ public class MantenimientoRequest {
 
     private LocalDate fechaFin;
 
-    @NotBlank(message = "El estado es obligatorio")
     private String estado;
 
     @NotBlank(message = "El técnico es obligatorio")

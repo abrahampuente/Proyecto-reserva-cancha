@@ -19,6 +19,5 @@ public class ReservaRequest {
     @NotNull(message = "La fechaReserva es obligatoria")
     private LocalDateTime fechaReserva;
 
-    @NotNull(message = "El estado es obligatorio")
     private String estado;
 }

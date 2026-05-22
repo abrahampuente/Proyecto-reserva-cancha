@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import java.util.List;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,14 +36,32 @@ public class Recinto {
     @NotBlank(message = "El teléfono es obligatorio")
     private String phone;
 
+    @Column(nullable = false)
     private Long managerUserId;
 
+    @Column(nullable = false)
     private String status;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "recinto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recinto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImagenRecinto> imagenes;
+
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+
+        if (this.status == null) {
+            this.status = "ACTIVO";
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

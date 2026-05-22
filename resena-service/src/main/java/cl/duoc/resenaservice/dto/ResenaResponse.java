@@ -14,5 +14,7 @@ public class ResenaResponse {
     private Long canchaId;
     private String comentario;
     private Integer calificacion;
+    private String estado;
     private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaActualizacion;
 }

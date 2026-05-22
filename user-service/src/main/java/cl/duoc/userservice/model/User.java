@@ -26,17 +26,17 @@ public class User {
 
     @NotBlank(message = "El correo es obligatorio")
     @Email(message = "El correo no tiene un formato válido")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NotBlank(message = "El teléfono es obligatorio")
     @Size(min = 8, max = 20, message = "El teléfono debe tener entre 8 y 20 caracteres")
     private String phone;
 
-
+    @Column(nullable = false)
     private String role;
 
-
+    @Column(nullable = false)
     private String status;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -45,4 +45,23 @@ public class User {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+
+        if (status == null) {
+            status = "ACTIVO";
+        }
+
+        if (role == null) {
+            role = "CLIENTE";
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

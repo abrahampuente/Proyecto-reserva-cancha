@@ -15,4 +15,6 @@ public class PrecioRequest {
 
     @NotNull(message = "La descripcion es obligatoria")
     private String descripcion;
+
+    private String estado;
 }

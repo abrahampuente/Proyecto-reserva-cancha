@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PagoRepository extends JpaRepository<Pago, Long> {
+
+    boolean existsByReservaIdAndEstado(Long reservaId, String estado);
+
+    boolean existsByIdAndEstadoNot(Long id, String estado);
 }

@@ -32,6 +32,10 @@ public class PrecioController {
     public ResponseEntity<PrecioResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(precioService.getById(id));
     }
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(precioService.existsById(id));
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<PrecioResponse> update(@PathVariable Long id,

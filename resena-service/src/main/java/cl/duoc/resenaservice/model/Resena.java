@@ -26,18 +26,35 @@ public class Resena {
     private Long canchaId;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String comentario;
 
-    @Min(1) @Max(5)
+    @Min(1)
+    @Max(5)
     @Column(nullable = false)
     private Integer calificacion;
 
-    @Column(name = "fecha_creacion")
+    @Column(nullable = false)
+    private String estado;
+
+    @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fechaActualizacion;
 
     @PrePersist
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
+        this.fechaActualizacion = LocalDateTime.now();
+
+        if (this.estado == null) {
+            this.estado = "ACTIVA";
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.fechaActualizacion = LocalDateTime.now();
     }
 }

@@ -35,6 +35,15 @@ public class UserController {
     public ResponseEntity<UserResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.existsById(id));
+    }
+
+    @GetMapping("/{id}/role")
+    public ResponseEntity<String> getRoleById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getRoleById(id));
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> update(@PathVariable Long id, @Valid @RequestBody UserRequest request) {

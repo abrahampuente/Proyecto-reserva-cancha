@@ -24,6 +24,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
 
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<Map<String, Object>> handleBusinessRule(BusinessRuleException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now().toString());
+        body.put("status", 400);
+        body.put("error", "Business Rule Violation");
+        body.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, Object> body = new HashMap<>();
@@ -31,7 +41,9 @@ public class GlobalExceptionHandler {
         body.put("status", 400);
         body.put("error", "Bad Request");
         body.put("message", ex.getBindingResult().getAllErrors()
-                .stream().map(e -> e.getDefaultMessage()).toList());
+                .stream()
+                .map(e -> e.getDefaultMessage())
+                .toList());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 

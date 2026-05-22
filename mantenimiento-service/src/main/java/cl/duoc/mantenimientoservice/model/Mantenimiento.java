@@ -24,7 +24,7 @@ public class Mantenimiento {
     private Long canchaId;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String descripcion;
 
     @NotNull
@@ -36,17 +36,26 @@ public class Mantenimiento {
 
     @NotBlank
     @Column(nullable = false)
-    private String estado; // PENDIENTE, EN_PROCESO, FINALIZADO
+    private String estado;
 
     @NotBlank
     @Column(nullable = false)
     private String tecnico;
 
-    @Column(name = "fecha_creacion")
+    @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fechaActualizacion;
 
     @PrePersist
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
+        this.fechaActualizacion = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.fechaActualizacion = LocalDateTime.now();
     }
 }

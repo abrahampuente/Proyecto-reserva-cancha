@@ -32,6 +32,10 @@ public class ReservaController {
     public ResponseEntity<ReservaResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(reservaService.getById(id));
     }
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(reservaService.existsById(id));
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<ReservaResponse> update(@PathVariable Long id,
