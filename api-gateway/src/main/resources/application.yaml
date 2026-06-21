@@ -11,24 +11,74 @@ spring:
         webmvc:
           routes:
             - id: user-service
-              uri: http://user-service-app:8081
+              uri: lb://USER-SERVICE
               predicates:
                 - Path=/api/users/**
 
             - id: cancha-service
-              uri: http://cancha-service-app:8083
+              uri: lb://CANCHA-SERVICE
               predicates:
                 - Path=/api/canchas/**
 
             - id: horario-service
-              uri: http://horario-service-app:8084
+              uri: lb://HORARIO-SERVICE
               predicates:
                 - Path=/api/horarios/**
 
             - id: reserva-service
-              uri: http://reserva-service-app:8085
+              uri: lb://RESERVA-SERVICE
               predicates:
                 - Path=/api/reservas/**
+
+            - id: user-service-docs
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/user-service/v3/api-docs
+              filters:
+                - RewritePath=/user-service/v3/api-docs,/v3/api-docs
+
+            - id: cancha-service-docs
+              uri: lb://CANCHA-SERVICE
+              predicates:
+                - Path=/cancha-service/v3/api-docs
+              filters:
+                - RewritePath=/cancha-service/v3/api-docs,/v3/api-docs
+
+            - id: horario-service-docs
+              uri: lb://HORARIO-SERVICE
+              predicates:
+                - Path=/horario-service/v3/api-docs
+              filters:
+                - RewritePath=/horario-service/v3/api-docs,/v3/api-docs
+
+            - id: reserva-service-docs
+              uri: lb://RESERVA-SERVICE
+              predicates:
+                - Path=/reserva-service/v3/api-docs
+              filters:
+                - RewritePath=/reserva-service/v3/api-docs,/v3/api-docs
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: User Service
+        url: /user-service/v3/api-docs
+      - name: Cancha Service
+        url: /cancha-service/v3/api-docs
+      - name: Horario Service
+        url: /horario-service/v3/api-docs
+      - name: Reserva Service
+        url: /reserva-service/v3/api-docs
 
 management:
   endpoints:
