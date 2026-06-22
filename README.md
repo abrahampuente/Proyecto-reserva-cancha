@@ -1,371 +1,256 @@
-# 🏟️ Sistema de Reserva de Canchas Deportivas
-### Arquitectura de Microservicios — Spring Boot
+# Sistema de Reserva de Canchas Deportivas
+
+## Descripción General
+
+Sistema desarrollado bajo una arquitectura de microservicios utilizando Spring Boot y Spring Cloud. La plataforma permite la administración de recintos deportivos, canchas, horarios, reservas, pagos, notificaciones y reseñas mediante servicios independientes que se comunican a través de un API Gateway y son descubiertos dinámicamente mediante Netflix Eureka.
+
+El objetivo principal del proyecto es demostrar la implementación de una arquitectura escalable, desacoplada y mantenible, aplicando buenas prácticas de desarrollo backend, seguridad, documentación y despliegue mediante contenedores Docker.
 
 ---
 
-## 👥 Integrantes del Equipo
+# Integrantes
 
-| Nombre | GitHub |
-|--------|--------|
-| Benjamin Cea | @BenjaminCeainfor |
-| Abraham Puente | @Abrahampuente |
-| Pablo Acuña | @Pabloacuna-06 |
+* Pablo Acuña
+* Benjamin Cea
+* Abraham Puente
 
 ---
 
-## 📋 Descripción del Proyecto
+# Arquitectura de la Solución
 
-Sistema backend basado en arquitectura de microservicios para la gestión integral de reservas de canchas deportivas.
+La solución se basa en una arquitectura distribuida de microservicios compuesta por:
 
-El sistema permite administrar usuarios, recintos, canchas, horarios, reservas, precios, pagos, notificaciones, mantenimientos y reseñas de forma independiente, desacoplada y escalable.
+* API Gateway
+* Discovery Service (Netflix Eureka)
+* User Service
+* Recinto Service
+* Cancha Service
+* Horario Service
+* Reserva Service
+* Pago Service
+* Precio Service
+* Notificación Service
+* Reseña Service
 
-Cada microservicio posee:
-
-- Responsabilidad única
-- Base de datos H2 independiente
-- Seguridad con Spring Security
-- Migraciones con Flyway
-- Validaciones con Bean Validation
-- Manejo centralizado de excepciones
-- Comunicación REST entre microservicios mediante RestClient
-
----
-
-## 🧩 Microservicios Implementados
-
-| # | Microservicio | Puerto | Descripción |
-|---|---------------|--------|-------------|
-| 1 | user-service | 8081 | Gestión de usuarios |
-| 2 | recinto-service | 8082 | Gestión de recintos deportivos |
-| 3 | cancha-service | 8083 | Gestión de canchas |
-| 4 | horario-service | 8084 | Gestión de horarios |
-| 5 | reserva-service | 8085 | Gestión de reservas |
-| 6 | precio-service | 8086 | Gestión de precios |
-| 7 | pago-service | 8087 | Gestión de pagos |
-| 8 | notificacion-service | 8088 | Gestión de notificaciones |
-| 9 | resena-service | 8089 | Gestión de reseñas |
-| 10 | mantenimiento-service | 8090 | Gestión de mantenimientos |
+Todos los servicios se registran automáticamente en Eureka y son consumidos a través de un único punto de entrada utilizando Spring Cloud Gateway.
 
 ---
 
-## ⚙️ Tecnologías Utilizadas
+# Tecnologías Utilizadas
 
-- Java 17
-- Spring Boot
-- Spring Web
-- Spring Data JPA
-- Hibernate
-- Spring Security
-- H2 Database
-- Flyway
-- Maven
-- Lombok
-- REST API
-- Postman
-- IntelliJ IDEA
-- RestClient
+### Backend
 
----
+* Java 17
+* Spring Boot
+* Spring Data JPA
+* Hibernate
+* Spring Validation
+* Spring Security
+* Spring HATEOAS
 
-## 🏗️ Arquitectura Interna de Cada Microservicio
+### Arquitectura de Microservicios
 
-```text
-cl.duoc.[nombre]service
-├── client/
-│   └── Comunicación REST con otros microservicios
-├── config/
-│   └── Configuración de seguridad
-├── controller/
-│   └── Endpoints REST
-├── dto/
-│   ├── Request
-│   └── Response
-├── exception/
-│   ├── Excepciones personalizadas
-│   └── GlobalExceptionHandler
-├── model/
-│   └── Entidades JPA
-├── repository/
-│   └── Persistencia con JPA
-└── service/
-    └── Lógica de negocio
-```
+* Netflix Eureka Discovery Server
+* Eureka Client
+* Spring Cloud Gateway
+
+### Persistencia
+
+* MySQL 8
+* Flyway Migration
+
+### Documentación
+
+* Swagger OpenAPI
+
+### Contenedores
+
+* Docker
+* Docker Compose
+
+### Gestión de Dependencias
+
+* Maven
 
 ---
 
-## 🔌 Endpoints REST
+# Funcionalidades Implementadas
 
-Cada microservicio expone endpoints REST según su responsabilidad:
+### Gestión de Usuarios
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | /api/[entidad] | Crear recurso |
-| GET | /api/[entidad] | Obtener todos |
-| GET | /api/[entidad]/{id} | Obtener por ID |
-| PUT | /api/[entidad]/{id} | Actualizar |
-| DELETE | /api/[entidad]/{id} | Eliminación lógica o actualización de estado |
+* Registro de usuarios
+* Administración de perfiles
+* Gestión de roles
 
-Endpoints internos de validación:
+### Gestión de Recintos
 
-```text
-/api/users/{id}/exists
-/api/users/{id}/role
-/api/recintos/{id}/exists
-/api/canchas/{id}/exists
-/api/horarios/{id}/exists
-/api/reservas/{id}/exists
-```
+* Administración de recintos deportivos
+* Asociación de canchas a recintos
 
----
+### Gestión de Canchas
 
-## 🔐 Seguridad
+* Creación y administración de canchas
+* Consulta de disponibilidad
 
-El sistema implementa autenticación Basic Auth con Spring Security y control por roles.
+### Gestión de Horarios
 
-### Roles
+* Configuración de horarios disponibles
+* Control de disponibilidad
 
-**ADMIN**
-- Administración general del sistema
+### Gestión de Reservas
 
-**DUENIO**
-- Gestión de recintos
-- Gestión de canchas
-- Gestión de horarios
-- Gestión de precios
-- Gestión de mantenimientos
+* Creación de reservas
+* Modificación de reservas
+* Cancelación de reservas
 
-**CLIENTE**
-- Crear reservas
-- Realizar pagos
-- Crear reseñas
+### Gestión de Pagos
 
-### Credenciales de prueba
+* Registro y validación de pagos
 
-```text
-admin / admin123
-duenio / duenio123
-cliente / cliente123
-```
+### Notificaciones
+
+* Confirmaciones de reserva
+* Avisos y recordatorios
+
+### Reseñas
+
+* Comentarios y calificaciones de usuarios
 
 ---
 
-## 🗄️ Base de Datos
+# Seguridad
 
-Cada microservicio utiliza una base de datos H2 independiente basada en archivo.
+La solución incorpora Spring Security utilizando autenticación Basic Auth.
 
-| Microservicio | JDBC URL |
-|---------------|----------|
-| user-service | jdbc:h2:file:./data/usersdb |
-| recinto-service | jdbc:h2:file:./data/recintosdb |
-| cancha-service | jdbc:h2:file:./data/canchasdb |
-| horario-service | jdbc:h2:file:./data/horariosdb |
-| reserva-service | jdbc:h2:file:./data/reservadb |
-| precio-service | jdbc:h2:file:./data/preciodb |
-| pago-service | jdbc:h2:file:./data/pagodb |
-| notificacion-service | jdbc:h2:file:./data/notificacionesdb |
-| resena-service | jdbc:h2:file:./data/resenasdb |
-| mantenimiento-service | jdbc:h2:file:./data/mantenimientosdb |
+## Roles Disponibles
 
-Consola H2:
+| Rol     | Descripción                          |
+| ------- | ------------------------------------ |
+| ADMIN   | Administración completa del sistema  |
+| DUENIO  | Administración de recintos y canchas |
+| CLIENTE | Gestión de reservas                  |
 
-```text
-http://localhost:[puerto]/h2-console
-```
+## Usuarios de Prueba
+
+| Usuario | Contraseña | Rol     |
+| ------- | ---------- | ------- |
+| admin   | admin123   | ADMIN   |
+| duenio  | duenio123  | DUENIO  |
+| cliente | cliente123 | CLIENTE |
 
 ---
 
-## 🔗 Comunicación entre Microservicios
+# Manejo de Errores
 
-Los servicios se comunican mediante llamadas REST usando RestClient.
+Todos los microservicios implementan respuestas estandarizadas para:
 
-### Dependencias
+* 400 Bad Request
+* 401 Unauthorized
+* 403 Forbidden
+* 404 Not Found
+* 500 Internal Server Error
 
-- cancha-service → recinto-service
-- horario-service → cancha-service
-- precio-service → cancha-service
-- reserva-service → user-service + cancha-service + horario-service
-- pago-service → reserva-service
-- resena-service → user-service + cancha-service
-- mantenimiento-service → cancha-service
-
-### Ejemplo real
-
-Flujo de creación de reserva:
-
-```text
-reserva-service
-   ↓
-user-service
-   ↓
-cancha-service
-   ↓
-horario-service
-```
-
-Validaciones realizadas:
-
-- Usuario existe
-- Cancha existe
-- Horario existe
-- Reserva no duplicada
-
----
-
-## 🧪 Ejemplo de Prueba
-
-### Crear Reserva
-
-```http
-POST http://localhost:8085/api/reservas
-```
-
-Body:
+Ejemplo:
 
 ```json
 {
-  "usuarioId": 5,
-  "canchaId": 4,
-  "horarioId": 4,
-  "fechaReserva": "2026-05-25T18:00:00"
+  "timestamp": "2026-06-22T12:00:00",
+  "status": 403,
+  "error": "Forbidden",
+  "message": "No tienes permisos para acceder a este recurso",
+  "path": "/api/canchas"
 }
 ```
 
 ---
 
-## ⚠️ Manejo de Errores
+# Documentación API
 
-Se implementa manejo centralizado mediante `GlobalExceptionHandler`.
+La documentación de todos los microservicios se encuentra centralizada mediante Swagger OpenAPI.
 
-Errores soportados:
+### Swagger UI
 
-- 400 Bad Request
-- 403 Forbidden
-- 404 Not Found
-- 409 Conflict
-
-Excepciones personalizadas:
-
-- BusinessRuleException
-- ResourceNotFoundException
-- DuplicateResourceException
+http://localhost:8080/swagger-ui.html
 
 ---
 
-## 🧾 Funcionalidades Implementadas
+# Discovery Service
 
-- Arquitectura de microservicios
-- CRUD independiente por servicio
-- Seguridad con roles
-- Persistencia con JPA
-- Migraciones con Flyway
-- DTOs
-- Validaciones de negocio
-- Comunicación REST entre microservicios
-- Manejo de errores centralizado
-- H2 Console
-- Borrado lógico mediante estados
-- Testing manual con Postman
+Netflix Eureka permite el descubrimiento automático de servicios.
+
+### URL
+
+http://localhost:8761
+
+Beneficios:
+
+* Registro automático de servicios.
+* Descubrimiento dinámico.
+* Eliminación de URLs fijas.
+* Mayor escalabilidad y mantenibilidad.
 
 ---
 
-## 🚀 Ejecución del Proyecto
+# API Gateway
 
-### Requisitos
+El Gateway actúa como punto único de entrada para todos los clientes.
 
-- Java 17
-- IntelliJ IDEA
-- Maven
-- Postman
+### URL
 
-### Pasos
+http://localhost:8080
 
-#### 1. Clonar repositorio
+Funciones principales:
+
+* Enrutamiento centralizado.
+* Integración con Eureka.
+* Seguridad.
+* Acceso unificado a los microservicios.
+
+---
+
+# Despliegue con Docker Compose
+
+## Levantar toda la arquitectura
+
+Si existen cambios en el código:
 
 ```bash
-git clone https://github.com/abrahampuente/Proyecto-reserva-cancha.git
+docker compose up -d --build
 ```
 
-#### 2. Abrir en IntelliJ
+Si no existen cambios:
 
-Abrir carpeta raíz del proyecto.
-
-#### 3. Esperar descarga de dependencias Maven
-
-#### 4. Ejecutar microservicios
-
-Ejecutar:
-
-```text
-UserServiceApplication
-RecintoServiceApplication
-CanchaServiceApplication
-HorarioServiceApplication
-ReservaServiceApplication
-PrecioServiceApplication
-PagoServiceApplication
-NotificacionServiceApplication
-ResenaServiceApplication
-MantenimientoServiceApplication
+```bash
+docker compose up -d
 ```
 
-#### 5. Verificar ejecución
+## Detener toda la arquitectura
 
-Ejemplo:
-
-```text
-Started ReservaServiceApplication on port 8085
-```
-
-#### 6. Probar endpoints con Postman
-
-Usar Basic Auth.
-
----
-
-## 📁 Organización del Repositorio
-
-```text
-Proyecto-reserva-cancha/
-├── user-service/
-├── recinto-service/
-├── cancha-service/
-├── horario-service/
-├── reserva-service/
-├── precio-service/
-├── pago-service/
-├── notificacion-service/
-├── resena-service/
-├── mantenimiento-service/
-└── README.md
+```bash
+docker compose down
 ```
 
 ---
 
-## 🧩 Flujo Funcional de Demo
+# Servicios Desplegados
 
-1. Crear usuario dueño
-2. Crear usuario cliente
-3. Crear recinto
-4. Crear cancha
-5. Crear horario
-6. Crear precio
-7. Crear reserva
-8. Crear pago
-9. Crear notificación
-10. Crear reseña
-11. Crear mantenimiento
+| Servicio             | Puerto |
+| -------------------- | ------ |
+| API Gateway          | 8080   |
+| User Service         | 8081   |
+| Recinto Service      | 8082   |
+| Cancha Service       | 8083   |
+| Horario Service      | 8084   |
+| Reserva Service      | 8085   |
+| Pago Service         | 8086   |
+| Precio Service       | 8087   |
+| Notificación Service | 8088   |
+| Reseña Service       | 8089   |
+| Discovery Service    | 8761   |
+| MySQL                | 3307   |
 
 ---
 
-## 🔮 Mejoras Futuras
+# Estado del Proyecto
 
-- API Gateway
-- JWT Authentication
-- Docker
-- Docker Compose
-- PostgreSQL
-- Swagger / OpenAPI
-- OpenFeign
-- Centralized Logging
-- Monitoring
-- CI/CD Pipelines
+Proyecto académico desarrollado para la asignatura de Desarrollo Full Stack utilizando una arquitectura moderna basada en microservicios, aplicando conceptos de descubrimiento de servicios, API Gateway, seguridad, documentación centralizada y despliegue mediante contenedores Docker.

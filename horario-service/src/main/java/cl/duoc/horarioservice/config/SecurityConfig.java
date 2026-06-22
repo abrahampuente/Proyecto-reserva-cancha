@@ -15,23 +15,39 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    public SecurityConfig(CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
+                          CustomAccessDeniedHandler customAccessDeniedHandler) {
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers(
+                                "/h2-console/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
 
-                        // Consultas públicas para clientes y otros microservicios
                         .requestMatchers(HttpMethod.GET, "/api/horarios/**").permitAll()
 
-                        // Gestión de horarios solo DUENIO o ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/horarios/**").hasAnyRole("DUENIO", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/horarios/**").hasAnyRole("DUENIO", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/horarios/**").hasAnyRole("DUENIO", "ADMIN")
 
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .httpBasic(Customizer.withDefaults());
 

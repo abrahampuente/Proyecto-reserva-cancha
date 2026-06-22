@@ -15,31 +15,39 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    public SecurityConfig(CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
+                          CustomAccessDeniedHandler customAccessDeniedHandler) {
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
-                        // Swagger / OpenAPI
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        // Endpoint interno para reserva-service
                         .requestMatchers("/api/canchas/*/exists").permitAll()
 
-                        // Consultas públicas
                         .requestMatchers(HttpMethod.GET, "/api/canchas/**").permitAll()
 
-                        // Gestión solo dueño/admin
                         .requestMatchers(HttpMethod.POST, "/api/canchas/**").hasAnyRole("DUENIO", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/canchas/**").hasAnyRole("DUENIO", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/canchas/**").hasAnyRole("DUENIO", "ADMIN")
 
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .httpBasic(Customizer.withDefaults());
 
