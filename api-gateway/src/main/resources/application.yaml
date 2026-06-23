@@ -29,10 +29,23 @@ spring:
               uri: lb://RESERVA-SERVICE
               predicates:
                 - Path=/api/reservas/**
-                - id: pago-service
+                
+            - id: pago-service
               uri: lb://PAGO-SERVICE
               predicates:
                 - Path=/api/pagos/**
+                
+            - id: precio-service
+              uri: lb://PRECIO-SERVICE
+              predicates:
+                - Path=/api/precios/**    
+                
+            - id: precio-service-docs
+              uri: lb://PRECIO-SERVICE
+              predicates:
+                - Path=/precio-service/v3/api-docs
+              filters:
+                - RewritePath=/precio-service/v3/api-docs,/v3/api-docs    
 
             - id: user-service-docs
               uri: lb://USER-SERVICE
@@ -91,7 +104,8 @@ springdoc:
         url: /reserva-service/v3/api-docs
       - name: Pago Service
         url: /pago-service/v3/api-docs
-
+      - name: Precio Service
+        url: /precio-service/v3/api-docs
 management:
   endpoints:
     web:
