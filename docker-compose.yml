@@ -88,7 +88,22 @@ pago-service:
       - mysql
       - discovery-service
       - reserva-service
- 
+ precio-service:
+    build: ./precio-service
+    container_name: precio-service-app
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/preciodb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
+    networks:
+      - reserva-network
+    depends_on:
+      - mysql
+      - discovery-service
+      - cancha-service
 
   api-gateway:
     build: ./api-gateway
@@ -99,13 +114,14 @@ pago-service:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
     networks:
       - reserva-network
-      depends_on:
+     depends_on:
       - discovery-service
       - user-service
       - cancha-service
       - horario-service
       - reserva-service
       - pago-service
+      - precio-service
  
 
 volumes:
