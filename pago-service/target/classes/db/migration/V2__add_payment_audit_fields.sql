@@ -5,13 +5,13 @@ ALTER TABLE pagos
     ADD COLUMN codigo_transaccion VARCHAR(100);
 
 ALTER TABLE pagos
-    ADD COLUMN fecha_pago TIMESTAMP;
+    ADD COLUMN fecha_pago TIMESTAMP NULL;
 
 ALTER TABLE pagos
-    ADD COLUMN created_at TIMESTAMP;
+    ADD COLUMN created_at TIMESTAMP NULL;
 
 ALTER TABLE pagos
-    ADD COLUMN updated_at TIMESTAMP;
+    ADD COLUMN updated_at TIMESTAMP NULL;
 
 UPDATE pagos
 SET moneda = 'CLP',
@@ -21,10 +21,10 @@ SET moneda = 'CLP',
 WHERE moneda IS NULL;
 
 ALTER TABLE pagos
-    ALTER COLUMN moneda SET NOT NULL;
+    MODIFY COLUMN moneda VARCHAR(10) NOT NULL;
 
 ALTER TABLE pagos
-    ALTER COLUMN fecha_pago SET NOT NULL;
+    MODIFY COLUMN fecha_pago TIMESTAMP NOT NULL;
 
 ALTER TABLE pagos
-    ALTER COLUMN created_at SET NOT NULL;
+    MODIFY COLUMN created_at TIMESTAMP NOT NULL;
