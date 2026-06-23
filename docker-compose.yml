@@ -72,14 +72,13 @@ services:
     depends_on:
       - mysql
       - discovery-service
-
-  reserva-service:
-    build: ./reserva-service
-    container_name: reserva-service-app
+pago-service:
+    build: ./pago-service
+    container_name: pago-service-app
     ports:
-      - "8085:8085"
+      - "8087:8087"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/reservadb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/pagodb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
@@ -88,9 +87,8 @@ services:
     depends_on:
       - mysql
       - discovery-service
-      - user-service
-      - cancha-service
-      - horario-service
+      - reserva-service
+ 
 
   api-gateway:
     build: ./api-gateway
@@ -101,12 +99,14 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
     networks:
       - reserva-network
-    depends_on:
+      depends_on:
       - discovery-service
       - user-service
       - cancha-service
       - horario-service
       - reserva-service
+      - pago-service
+ 
 
 volumes:
   mysql_reservas_data:
