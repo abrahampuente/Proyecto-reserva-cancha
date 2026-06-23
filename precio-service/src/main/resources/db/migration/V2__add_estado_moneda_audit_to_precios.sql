@@ -5,10 +5,10 @@ ALTER TABLE precios
     ADD COLUMN estado VARCHAR(50);
 
 ALTER TABLE precios
-    ADD COLUMN created_at TIMESTAMP;
+    ADD COLUMN created_at TIMESTAMP NULL;
 
 ALTER TABLE precios
-    ADD COLUMN updated_at TIMESTAMP;
+    ADD COLUMN updated_at TIMESTAMP NULL;
 
 UPDATE precios
 SET moneda = 'CLP',
@@ -18,10 +18,10 @@ SET moneda = 'CLP',
 WHERE moneda IS NULL;
 
 ALTER TABLE precios
-    ALTER COLUMN moneda SET NOT NULL;
+    MODIFY COLUMN moneda VARCHAR(10) NOT NULL;
 
 ALTER TABLE precios
-    ALTER COLUMN estado SET NOT NULL;
+    MODIFY COLUMN estado VARCHAR(50) NOT NULL;
 
 ALTER TABLE precios
-    ALTER COLUMN created_at SET NOT NULL;
+    MODIFY COLUMN created_at TIMESTAMP NOT NULL;
