@@ -5,7 +5,7 @@ spring:
   application:
     name: pago-service
   datasource:
-    url: jdbc:mysql://localhost:3307/pagodb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+    url: jdbc:mysql://mysql-reservas:3306/pagodb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,7 +25,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery-service-app:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -33,4 +33,4 @@ eureka:
 
 services:
   reserva-service:
-    url: http://localhost:8085
+    url: http://reserva-service-app:8085
