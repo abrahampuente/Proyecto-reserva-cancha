@@ -29,6 +29,10 @@ spring:
               uri: lb://RESERVA-SERVICE
               predicates:
                 - Path=/api/reservas/**
+                - id: pago-service
+              uri: lb://PAGO-SERVICE
+              predicates:
+                - Path=/api/pagos/**
 
             - id: user-service-docs
               uri: lb://USER-SERVICE
@@ -57,6 +61,12 @@ spring:
                 - Path=/reserva-service/v3/api-docs
               filters:
                 - RewritePath=/reserva-service/v3/api-docs,/v3/api-docs
+                - id: pago-service-docs
+              uri: lb://PAGO-SERVICE
+              predicates:
+                - Path=/pago-service/v3/api-docs
+              filters:
+                - RewritePath=/pago-service/v3/api-docs,/v3/api-docs
 
 eureka:
   client:
@@ -66,7 +76,7 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: true
-
+    
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -79,6 +89,8 @@ springdoc:
         url: /horario-service/v3/api-docs
       - name: Reserva Service
         url: /reserva-service/v3/api-docs
+      - name: Pago Service
+        url: /pago-service/v3/api-docs
 
 management:
   endpoints:
