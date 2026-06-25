@@ -39,10 +39,16 @@ spring:
               uri: lb://PRECIO-SERVICE
               predicates:
                 - Path=/api/precios/**    
+                
             - id: recinto-service
               uri: lb://RECINTO-SERVICE
               predicates:
                 - Path=/api/recintos/**
+                
+            - id: notificacion-service
+              uri: lb://NOTIFICACION-SERVICE
+              predicates:
+                - Path=/api/notificaciones/**    
                 
             - id: precio-service-docs
               uri: lb://PRECIO-SERVICE
@@ -50,12 +56,20 @@ spring:
                 - Path=/precio-service/v3/api-docs
               filters:
                 - RewritePath=/precio-service/v3/api-docs,/v3/api-docs   
+                
             - id: recinto-service-docs
               uri: lb://RECINTO-SERVICE
               predicates:
                 - Path=/recinto-service/v3/api-docs
               filters:
                 - RewritePath=/recinto-service/v3/api-docs,/v3/api-docs    
+
+             - id: notificacion-service-docs
+              uri: lb://NOTIFICACION-SERVICE
+              predicates:
+                - Path=/notificacion-service/v3/api-docs
+              filters:
+                - RewritePath=/notificacion-service/v3/api-docs,/v3/api-docs   
 
             - id: user-service-docs
               uri: lb://USER-SERVICE
@@ -118,6 +132,8 @@ springdoc:
         url: /precio-service/v3/api-docs
       - name: Recinto Service
         url: /recinto-service/v3/api-docs  
+      - name: Recinto Service
+        url: /recinto-service/v3/api-docs
 management:
   endpoints:
     web:
