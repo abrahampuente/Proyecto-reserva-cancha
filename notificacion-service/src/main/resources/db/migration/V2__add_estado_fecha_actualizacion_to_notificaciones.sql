@@ -2,7 +2,7 @@ ALTER TABLE notificaciones
     ADD COLUMN estado VARCHAR(50);
 
 ALTER TABLE notificaciones
-    ADD COLUMN fecha_actualizacion TIMESTAMP;
+    ADD COLUMN fecha_actualizacion TIMESTAMP NULL;
 
 UPDATE notificaciones
 SET estado = 'ENVIADA',
@@ -10,4 +10,4 @@ SET estado = 'ENVIADA',
 WHERE estado IS NULL;
 
 ALTER TABLE notificaciones
-    ALTER COLUMN estado SET NOT NULL;
+    MODIFY COLUMN estado VARCHAR(50) NOT NULL;
