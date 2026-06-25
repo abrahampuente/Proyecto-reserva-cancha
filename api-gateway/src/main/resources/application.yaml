@@ -48,7 +48,12 @@ spring:
             - id: notificacion-service
               uri: lb://NOTIFICACION-SERVICE
               predicates:
-                - Path=/api/notificaciones/**    
+                - Path=/api/notificaciones/**   
+            
+            - id: resena-service
+              uri: lb://RESENA-SERVICE
+              predicates:
+                - Path=/api/resenas/**                
                 
             - id: precio-service-docs
               uri: lb://PRECIO-SERVICE
@@ -77,7 +82,14 @@ spring:
                 - Path=/user-service/v3/api-docs
               filters:
                 - RewritePath=/user-service/v3/api-docs,/v3/api-docs
-
+                
+            - id: resena-service-docs
+              uri: lb://RESENA-SERVICE
+              predicates:
+                - Path=/resena-service/v3/api-docs
+              filters:
+                - RewritePath=/resena-service/v3/api-docs,/v3/api-docs
+                
             - id: cancha-service-docs
               uri: lb://CANCHA-SERVICE
               predicates:
@@ -134,6 +146,8 @@ springdoc:
         url: /recinto-service/v3/api-docs  
       - name: Recinto Service
         url: /recinto-service/v3/api-docs
+      - name: Resena Service
+        url: /resena-service/v3/api-docs  
 management:
   endpoints:
     web:
