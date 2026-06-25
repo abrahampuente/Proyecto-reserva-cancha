@@ -6,4 +6,4 @@ SET estado = 'ACTIVA'
 WHERE estado IS NULL;
 
 ALTER TABLE resenas
-    ALTER COLUMN estado SET NOT NULL;
+    MODIFY COLUMN estado VARCHAR(50) NOT NULL;
