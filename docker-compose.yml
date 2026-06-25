@@ -138,6 +138,7 @@ pago-service:
       - reserva-service
       - pago-service
       - precio-service
+      - recinto-service
  
 
 volumes:
