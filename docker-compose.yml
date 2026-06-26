@@ -72,7 +72,8 @@ services:
     depends_on:
       - mysql
       - discovery-service
-pago-service:
+
+  pago-service:
     build: ./pago-service
     container_name: pago-service-app
     ports:
@@ -88,7 +89,8 @@ pago-service:
       - mysql
       - discovery-service
       - reserva-service
- recinto-service:
+
+  recinto-service:
     build: ./recinto-service
     container_name: recinto-service-app
     ports:
@@ -104,7 +106,8 @@ pago-service:
       - mysql
       - discovery-service
       - user-service 
- notificacion-service:
+
+  notificacion-service:
     build: ./notificacion-service
     container_name: notificacion-service-app
     ports:
@@ -120,7 +123,7 @@ pago-service:
       - mysql
       - discovery-service  
       
- resena-service:
+  resena-service:
     build: ./resena-service
     container_name: resena-service-app
     ports:
@@ -138,7 +141,7 @@ pago-service:
       - cancha-service
       - user-service
       
- precio-service:
+  precio-service:
     build: ./precio-service
     container_name: precio-service-app
     ports:
@@ -155,6 +158,20 @@ pago-service:
       - discovery-service
       - cancha-service
 
+
+  mantenimiento-service:
+    build: ./mantenimiento-service
+    container_name: mantenimiento-service-app
+    ports:
+      - "8090:8090"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
+    networks:
+      - reserva-network
+    depends_on:
+      - mysql
+      - discovery-service
+
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway-app
@@ -164,7 +181,7 @@ pago-service:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
     networks:
       - reserva-network
-     depends_on:
+    depends_on:
       - discovery-service
       - user-service
       - cancha-service
@@ -175,7 +192,7 @@ pago-service:
       - recinto-service
       - notificacion-service
       - resena-service
- 
+      - mantenimiento-service 
 
 volumes:
   mysql_reservas_data:

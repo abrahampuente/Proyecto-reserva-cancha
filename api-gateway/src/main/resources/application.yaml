@@ -38,9 +38,7 @@ spring:
             - id: precio-service
               uri: lb://PRECIO-SERVICE
               predicates:
-                - Path=/api/precios/**    
-                
-            - id: recinto-service
+                - Path=/api/precios/** - id: recinto-service
               uri: lb://RECINTO-SERVICE
               predicates:
                 - Path=/api/recintos/**
@@ -48,13 +46,15 @@ spring:
             - id: notificacion-service
               uri: lb://NOTIFICACION-SERVICE
               predicates:
-                - Path=/api/notificaciones/**   
-            
-            - id: resena-service
+                - Path=/api/notificaciones/** - id: resena-service
               uri: lb://RESENA-SERVICE
               predicates:
-                - Path=/api/resenas/**                
-                
+                - Path=/api/resenas/** 
+            - id: mantenimiento-service
+              uri: lb://MANTENIMIENTO-SERVICE
+              predicates:
+                - Path=/api/mantenimientos/**
+
             - id: precio-service-docs
               uri: lb://PRECIO-SERVICE
               predicates:
@@ -69,7 +69,7 @@ spring:
               filters:
                 - RewritePath=/recinto-service/v3/api-docs,/v3/api-docs    
 
-             - id: notificacion-service-docs
+            - id: notificacion-service-docs
               uri: lb://NOTIFICACION-SERVICE
               predicates:
                 - Path=/notificacion-service/v3/api-docs
@@ -110,12 +110,20 @@ spring:
                 - Path=/reserva-service/v3/api-docs
               filters:
                 - RewritePath=/reserva-service/v3/api-docs,/v3/api-docs
-                - id: pago-service-docs
+                
+            - id: pago-service-docs
               uri: lb://PAGO-SERVICE
               predicates:
                 - Path=/pago-service/v3/api-docs
               filters:
                 - RewritePath=/pago-service/v3/api-docs,/v3/api-docs
+
+            - id: mantenimiento-service-docs
+              uri: lb://MANTENIMIENTO-SERVICE
+              predicates:
+                - Path=/mantenimiento-service/v3/api-docs
+              filters:
+                - RewritePath=/mantenimiento-service/v3/api-docs,/v3/api-docs
 
 eureka:
   client:
@@ -144,10 +152,11 @@ springdoc:
         url: /precio-service/v3/api-docs
       - name: Recinto Service
         url: /recinto-service/v3/api-docs  
-      - name: Recinto Service
-        url: /recinto-service/v3/api-docs
       - name: Resena Service
         url: /resena-service/v3/api-docs  
+      - name: Mantenimiento Service
+        url: /mantenimiento-service/v3/api-docs  
+
 management:
   endpoints:
     web:
