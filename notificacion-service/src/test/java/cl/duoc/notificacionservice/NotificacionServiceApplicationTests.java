@@ -1,13 +1,13 @@
 package cl.duoc.notificacionservice;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootApplication
-@EnableDiscoveryClient
-public class NotificacionServiceApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(NotificacionServiceApplication.class, args);
+@SpringBootTest
+public class NotificacionServiceApplicationTests { // <-- Aquí está el cambio: le agregamos "Tests"
+
+    @Test
+    void contextLoads() {
     }
+
 }

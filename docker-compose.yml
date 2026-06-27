@@ -56,6 +56,22 @@ services:
     depends_on:
       - mysql
       - discovery-service
+  
+  reserva-service:
+    build: ./reserva-service
+    container_name: reserva-service-app
+    ports:
+      - "8085:8085" 
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/reservadb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
+    networks:
+      - reserva-network
+    depends_on:
+      - mysql
+      - discovery-service
 
   horario-service:
     build: ./horario-service
@@ -96,16 +112,18 @@ services:
     ports:
       - "8082:8082"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/recintosdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/recintosdb_v2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
+      SPRING_FLYWAY_ENABLED: "false"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
+      JAKARTA_PERSISTENCE_JDBC_URL: "jdbc:mysql://mysql-reservas:3306/recintosdb_v2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "update" 
+    command: ["java", "-jar", "/app.jar", "--spring.autoconfigure.exclude=org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration"]
     networks:
       - reserva-network
     depends_on:
       - mysql
-      - discovery-service
-      - user-service 
 
   notificacion-service:
     build: ./notificacion-service
@@ -129,17 +147,15 @@ services:
     ports:
       - "8089:8089"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/resenadb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/resenadb_v2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
+      SPRING_FLYWAY_ENABLED: "false"
+    command: ["java", "-jar", "/app.jar", "--spring.autoconfigure.exclude=org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration"]
     networks:
       - reserva-network
     depends_on:
       - mysql
-      - discovery-service
-      - cancha-service
-      - user-service
       
   precio-service:
     build: ./precio-service
@@ -165,7 +181,15 @@ services:
     ports:
       - "8090:8090"
     environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/mantenimientodb_v2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_FLYWAY_ENABLED: "false"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+    # 🌟 INYECTAMOS LA URL DE FORMA DIRECTA E INAPELABLE:
+    command: ["java", "-jar", "/app.jar", "--eureka.client.service-url.defaultZone=http://discovery-service-app:8761/eureka/"]
     networks:
       - reserva-network
     depends_on:

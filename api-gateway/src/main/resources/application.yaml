@@ -38,7 +38,8 @@ spring:
             - id: precio-service
               uri: lb://PRECIO-SERVICE
               predicates:
-                - Path=/api/precios/** - id: recinto-service
+                - Path=/api/precios/** 
+            - id: recinto-service
               uri: lb://RECINTO-SERVICE
               predicates:
                 - Path=/api/recintos/**
@@ -46,7 +47,8 @@ spring:
             - id: notificacion-service
               uri: lb://NOTIFICACION-SERVICE
               predicates:
-                - Path=/api/notificaciones/** - id: resena-service
+                - Path=/api/notificaciones/** 
+            - id: resena-service
               uri: lb://RESENA-SERVICE
               predicates:
                 - Path=/api/resenas/** 
