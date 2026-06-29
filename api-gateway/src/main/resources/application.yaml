@@ -153,7 +153,9 @@ springdoc:
       - name: Precio Service
         url: /precio-service/v3/api-docs
       - name: Recinto Service
-        url: /recinto-service/v3/api-docs  
+        url: /recinto-service/v3/api-docs
+      - name: Notificacion Service
+        url: /notificacion-service/v3/api-docs
       - name: Resena Service
         url: /resena-service/v3/api-docs  
       - name: Mantenimiento Service

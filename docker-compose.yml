@@ -56,22 +56,6 @@ services:
     depends_on:
       - mysql
       - discovery-service
-  
-  reserva-service:
-    build: ./reserva-service
-    container_name: reserva-service-app
-    ports:
-      - "8085:8085" 
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/reservadb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service-app:8761/eureka/
-    networks:
-      - reserva-network
-    depends_on:
-      - mysql
-      - discovery-service
 
   horario-service:
     build: ./horario-service
@@ -89,7 +73,7 @@ services:
       - mysql
       - discovery-service
       
-   reserva-service:
+  reserva-service:
     build: ./reserva-service
     container_name: reserva-service-app
     ports:
@@ -165,10 +149,10 @@ services:
     ports:
       - "8089:8089"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/resenadb_v2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reservas:3306/resenadb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      SPRING_FLYWAY_ENABLED: "false"
+      SPRING_FLYWAY_ENABLED: "true"
     command: ["java", "-jar", "/app.jar", "--spring.autoconfigure.exclude=org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration"]
     networks:
       - reserva-network
