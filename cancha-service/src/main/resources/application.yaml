@@ -3,9 +3,9 @@ spring:
     name: cancha-service
 
   datasource:
-    url: jdbc:mysql://localhost:3307/canchadb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
-    username: root
-    password: root
+    url: ${DB_URL:jdbc:mysql://localhost:3307/canchadb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   flyway:
@@ -24,17 +24,18 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
 
 server:
-  port: 8083
+  port: ${PORT:8083}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
+
   instance:
     prefer-ip-address: true
 
 services:
   recinto-service:
-    url: http://localhost:8082
+    url: ${RECINTO_SERVICE_URL:http://localhost:8082}
