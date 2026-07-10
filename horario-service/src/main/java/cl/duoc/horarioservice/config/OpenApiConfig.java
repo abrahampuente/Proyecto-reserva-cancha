@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,9 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
+    @Value("${API_GATEWAY_URL:http://localhost:8080}")
+    private String apiGatewayUrl;
+
     @Bean
     public OpenAPI horarioServiceOpenAPI() {
         final String securitySchemeName = "basicAuth";
@@ -21,7 +25,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .servers(List.of(
                         new Server()
-                                .url("http://localhost:8080")
+                                .url(apiGatewayUrl)
                                 .description("API Gateway")
                 ))
                 .info(new Info()
