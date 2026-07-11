@@ -9,9 +9,9 @@ public class UserClient {
 
     private final RestClient restClient;
 
-    public UserClient() {
-        this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8081")
+    public UserClient(RestClient.Builder restClientBuilder) {
+        this.restClient = restClientBuilder
+                .baseUrl("http://USER-SERVICE")
                 .build();
     }
 

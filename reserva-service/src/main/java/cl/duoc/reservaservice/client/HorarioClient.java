@@ -9,9 +9,9 @@ public class HorarioClient {
 
     private final RestClient restClient;
 
-    public HorarioClient() {
-        this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8084")
+    public HorarioClient(RestClient.Builder restClientBuilder) {
+        this.restClient = restClientBuilder
+                .baseUrl("http://HORARIO-SERVICE")
                 .build();
     }
 

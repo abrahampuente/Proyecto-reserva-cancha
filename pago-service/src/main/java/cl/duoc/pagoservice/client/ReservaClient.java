@@ -9,9 +9,9 @@ public class ReservaClient {
 
     private final RestClient restClient;
 
-    public ReservaClient() {
-        this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8085")
+    public ReservaClient(RestClient.Builder restClientBuilder) {
+        this.restClient = restClientBuilder
+                .baseUrl("http://RESERVA-SERVICE")
                 .build();
     }
 

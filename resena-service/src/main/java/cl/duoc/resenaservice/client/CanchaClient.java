@@ -9,9 +9,9 @@ public class CanchaClient {
 
     private final RestClient restClient;
 
-    public CanchaClient() {
-        this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8083")
+    public CanchaClient(RestClient.Builder restClientBuilder) {
+        this.restClient = restClientBuilder
+                .baseUrl("http://CANCHA-SERVICE")
                 .build();
     }
 

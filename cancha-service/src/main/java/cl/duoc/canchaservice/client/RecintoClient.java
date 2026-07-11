@@ -9,9 +9,9 @@ public class RecintoClient {
 
     private final RestClient restClient;
 
-    public RecintoClient() {
-        this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8082")
+    public RecintoClient(RestClient.Builder restClientBuilder) {
+        this.restClient = restClientBuilder
+                .baseUrl("http://RECINTO-SERVICE")
                 .build();
     }
 
