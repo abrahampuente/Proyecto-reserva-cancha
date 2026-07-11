@@ -10,6 +10,11 @@ spring:
       server:
         webmvc:
           routes:
+            - id: mantenimiento-service
+              uri: lb://MANTENIMIENTO-SERVICE
+              predicates:
+                - Path=/api/mantenimientos/**
+
             - id: user-service
               uri: lb://USER-SERVICE
               predicates:
@@ -76,6 +81,13 @@ spring:
               filters:
                 - RewritePath=/horario-service/v3/api-docs,/v3/api-docs
 
+            - id: mantenimiento-service-docs
+              uri: lb://MANTENIMIENTO-SERVICE
+              predicates:
+                - Path=/mantenimiento-service/v3/api-docs
+              filters:
+                - RewritePath=/mantenimiento-service/v3/api-docs,/v3/api-docs
+
             - id: reserva-service-docs
               uri: lb://RESERVA-SERVICE
               predicates:
@@ -132,6 +144,8 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     urls:
+      - name: Mantenimiento Service
+        url: /mantenimiento-service/v3/api-docs
       - name: User Service
         url: /user-service/v3/api-docs
       - name: Cancha Service
