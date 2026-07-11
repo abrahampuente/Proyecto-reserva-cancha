@@ -11,6 +11,7 @@ urls=(
   "https://pago-service-d1je.onrender.com/v3/api-docs"
   "https://notificacion-service-nyuo.onrender.com/v3/api-docs"
   "https://resena-service-p65a.onrender.com/v3/api-docs"
+  "https://mantenimiento-service-s2qp.onrender.com/v3/api-docs"
   "https://api-gateway-q3iu.onrender.com/swagger-ui/index.html"
 )
 
@@ -18,12 +19,21 @@ echo "Activando servicios de Render..."
 
 for url in "${urls[@]}"; do
   (
-    http_code=$(curl -L --max-time 300 -s -o /dev/null -w "%{http_code}" "$url")
-    echo "$http_code - $url"
+    for intento in 1 2 3; do
+      http_code=$(curl -L --max-time 300 -s -o /dev/null -w "%{http_code}" "$url")
+
+      if [[ "$http_code" == "200" || "$http_code" == "401" || "$http_code" == "403" ]]; then
+        echo "$http_code - ACTIVO - $url"
+        break
+      fi
+
+      echo "$http_code - intento $intento - $url"
+      sleep 20
+    done
   ) &
 done
 
 wait
 
-echo "Solicitudes terminadas."
-echo "Espera unos minutos y revisa Eureka."
+echo "Proceso terminado."
+echo "Revisa Eureka y Swagger."
