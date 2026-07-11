@@ -2,19 +2,20 @@ package cl.duoc.pagoservice.client;
 
 import cl.duoc.pagoservice.exception.BusinessRuleException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient;import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 
 @Component
 public class ReservaClient {
 
     private final RestClient restClient;
 
-    public ReservaClient(RestClient.Builder restClientBuilder) {
+    public ReservaClient(
+            @LoadBalanced RestClient.Builder restClientBuilder
+    ) {
         this.restClient = restClientBuilder
                 .baseUrl("http://RESERVA-SERVICE")
                 .build();
     }
-
     public void validateReservaExists(Long reservaId) {
         if (reservaId == null) {
             throw new BusinessRuleException("La reserva es obligatoria para registrar un pago");
