@@ -1,6 +1,7 @@
 package cl.duoc.mantenimientoservice.client;
 
 import cl.duoc.mantenimientoservice.exception.BusinessRuleException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -9,9 +10,11 @@ public class CanchaClient {
 
     private final RestClient restClient;
 
-    public CanchaClient() {
+    public CanchaClient(
+            @Value("${services.cancha-service.url:http://localhost:8083}") String canchaServiceUrl
+    ) {
         this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8083")
+                .baseUrl(canchaServiceUrl)
                 .build();
     }
 
