@@ -2,14 +2,17 @@ package cl.duoc.canchaservice.client;
 
 import cl.duoc.canchaservice.exception.BusinessRuleException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient;import org.springframework.beans.factory.annotation.Qualifier;
 
 @Component
 public class RecintoClient {
 
     private final RestClient restClient;
 
-    public RecintoClient(RestClient.Builder restClientBuilder) {
+    public RecintoClient(
+            @Qualifier("loadBalancedRestClientBuilder")
+            RestClient.Builder restClientBuilder
+    ) {
         this.restClient = restClientBuilder
                 .baseUrl("http://RECINTO-SERVICE")
                 .build();
