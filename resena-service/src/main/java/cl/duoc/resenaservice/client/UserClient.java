@@ -2,14 +2,17 @@ package cl.duoc.resenaservice.client;
 
 import cl.duoc.resenaservice.exception.BusinessRuleException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient;import org.springframework.beans.factory.annotation.Qualifier;
 
 @Component
 public class UserClient {
 
     private final RestClient restClient;
 
-    public UserClient(RestClient.Builder restClientBuilder) {
+    public UserClient(
+            @Qualifier("loadBalancedRestClientBuilder")
+            RestClient.Builder restClientBuilder
+    ) {
         this.restClient = restClientBuilder
                 .baseUrl("http://USER-SERVICE")
                 .build();
