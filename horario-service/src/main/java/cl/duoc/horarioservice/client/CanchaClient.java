@@ -3,13 +3,17 @@ package cl.duoc.horarioservice.client;
 import cl.duoc.horarioservice.exception.BusinessRuleException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @Component
 public class CanchaClient {
 
     private final RestClient restClient;
 
-    public CanchaClient(RestClient.Builder restClientBuilder) {
+    public CanchaClient(
+            @Qualifier("loadBalancedRestClientBuilder")
+            RestClient.Builder restClientBuilder
+    ) {
         this.restClient = restClientBuilder
                 .baseUrl("http://CANCHA-SERVICE")
                 .build();

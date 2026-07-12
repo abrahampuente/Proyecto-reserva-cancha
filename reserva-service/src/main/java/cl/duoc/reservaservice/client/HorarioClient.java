@@ -2,14 +2,17 @@ package cl.duoc.reservaservice.client;
 
 import cl.duoc.reservaservice.exception.BusinessRuleException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient;import org.springframework.beans.factory.annotation.Qualifier;
 
 @Component
 public class HorarioClient {
 
     private final RestClient restClient;
 
-    public HorarioClient(RestClient.Builder restClientBuilder) {
+    public HorarioClient(
+            @Qualifier("loadBalancedRestClientBuilder")
+            RestClient.Builder restClientBuilder
+    ) {
         this.restClient = restClientBuilder
                 .baseUrl("http://HORARIO-SERVICE")
                 .build();
